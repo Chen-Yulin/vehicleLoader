@@ -18,7 +18,6 @@ public class WheelTag : MonoBehaviour
 public class VehicleConstructor : MonoBehaviour
 {
     public JsonReader myReader;
-    public bool initialized;
 
     public GameObject vehicle;
 
@@ -38,7 +37,13 @@ public class VehicleConstructor : MonoBehaviour
         }
         return res;
     }
+    /// <summary>
+    /// Construct physics visualization, including colliders, wheels, gravity center
+    /// </summary>
+    public void ConstructPhysicsVis()
+    {
 
+    }
     public void ConstructPhysics()
     {
         Rigidbody carRigid = vehicle.AddComponent<Rigidbody>();
@@ -139,26 +144,34 @@ public class VehicleConstructor : MonoBehaviour
         }
     }
 
-    public void Construct()
+    public void Construct(Transform place, bool inEditor)
     {
         vehicle = new GameObject();
         vehicle.name = ("Vehicle (" + vehicle.GetInstanceID().ToString() + ")");
-        vehicle.transform.SetParent(GameObject.Find("VehicleSpace").transform);
+        vehicle.transform.SetParent(place);
         vehicle.transform.localPosition = new Vector3(0,2,0);
 
-        ConstructPhysics();
         ConstructModel();
-
-        vehicle.AddComponent<WheelVisController>();
-        vehicle.AddComponent<WheelController>();
-
+        if (inEditor)
+        {
+            ConstructPhysicsVis();
+        }
+        else
+        {
+            ConstructPhysics();
+            vehicle.AddComponent<WheelVisController>();
+            vehicle.AddComponent<WheelController>();
+        }
     }
 
-    private void Update()
+    public void PlaceVehicle(Transform place, bool inEditor = false)
     {
-        if (!initialized)
+        if (place.childCount!=0 && inEditor)
         {
-            initialized = true;
+            Debug.LogError("Vehicle already loaded in the editor, please delete the existing vehicle first.");
+        }
+        else
+        {
             myReader = GetComponent<JsonReader>();
             if (myReader.valid)
             {
@@ -171,13 +184,15 @@ public class VehicleConstructor : MonoBehaviour
                 //{
                 //    Debug.LogError("Failure: Construct data wrong");
                 //}
-                Construct();
-                
+                Construct(place, inEditor);
+
             }
             else
             {
                 Debug.LogError("Failure: Loading json file");
             }
         }
+
     }
+
 }

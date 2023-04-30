@@ -108,12 +108,12 @@ public class JsonReader : MonoBehaviour
         public VehiclePhysicsPara physics;  
     }
 
-    void Start()
+    public void ReadJson()
     {
         try
         {
-            Debug.Log(Application.dataPath);
-            string jsonData = File.ReadAllText(Application.streamingAssetsPath+"/Saves/"+SavesDir);
+            //Debug.Log(Application.dataPath);
+            string jsonData = File.ReadAllText(Application.streamingAssetsPath + "/Saves/" + SavesDir);
             vehicle = JsonUtility.FromJson<VehiclePara>(jsonData);
             valid = true;
         }
@@ -121,6 +121,6 @@ public class JsonReader : MonoBehaviour
         {
             valid = false;
         }
-        
     }
+
 }

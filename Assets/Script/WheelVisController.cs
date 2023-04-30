@@ -24,13 +24,13 @@ public class WheelVisController : MonoBehaviour
         {
             modelList.Add(child.gameObject);
         }
-        Debug.Log(colliderList.Count);
-        Debug.Log(modelList.Count);
+        //Debug.Log(colliderList.Count);
+        //Debug.Log(modelList.Count);
 
         for (int i = 0; i < colliderList.Count; i++)
         {
-            Debug.Log(colliderList[i].GetComponent<WheelCollider>());
-            Debug.Log(modelList[i].transform);
+            //Debug.Log(colliderList[i].GetComponent<WheelCollider>());
+            //Debug.Log(modelList[i].transform);
             wheelGroups.Add(new KeyValuePair<WheelCollider, Transform>(colliderList[i].GetComponent<WheelCollider>(), modelList[i].transform));
         }
     }

@@ -1,29 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
 
 public class CamSelectVehicle : MonoBehaviour
 {
     public int vehicleIndex = 0;
-    CinemachineVirtualCamera virtualCamera;
+    EditorCamController cameraController;
     // Start is called before the first frame update
     public void Awake()
     {
-        virtualCamera = GetComponent<CinemachineVirtualCamera>();
+        cameraController = GetComponent<EditorCamController>();
     }
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!virtualCamera.LookAt)
+        if (!cameraController.target && GameObject.Find("VehicleSpace").transform.childCount != 0)
         {
-            virtualCamera.LookAt = GameObject.Find("VehicleSpace").transform.GetChild(vehicleIndex);
-            virtualCamera.Follow = GameObject.Find("VehicleSpace").transform.GetChild(vehicleIndex);
+            cameraController.target = GameObject.Find("VehicleSpace").transform.GetChild(vehicleIndex);
         }
     }
 }
